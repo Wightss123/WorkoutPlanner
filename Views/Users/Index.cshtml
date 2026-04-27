@@ -1,0 +1,76 @@
+@model IEnumerable<WorkoutPlanner.Models.User>
+
+@{
+    ViewData["Title"] = "Клієнти";
+    var currentSort = ViewData["CurrentSort"]?.ToString();
+}
+
+<div>
+    <div>
+        <h1>Клієнти</h1>
+        <div>
+            <a asp-action="ExportToFile">
+                <i></i>Експорт у файл
+            </a>
+            <a asp-action="Create">
+                <i></i>Додати клієнта
+            </a>
+        </div>
+    </div>
+
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="sortOrder" value="@ViewData["CurrentSort"]" />
+        <div style="max-width: 400px;">
+            <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Пошук за ім'ям або метою...">
+            <button type="submit"><i></i> Знайти</button>
+            @if (ViewData["CurrentFilter"] != null)
+            {
+                <a asp-action="Index">Очистити</a>
+            }
+        </div>
+    </form>
+
+    <!-- Кнопки сортування -->
+    <div>
+        <span><i></i>Сортувати:</span>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSort"]" asp-route-searchString="@ViewData["CurrentFilter"]"
+          name_asc" || currentSort == "name_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Ім'я @(currentSort == "name_asc" ? "↑" : currentSort == "name_desc" ? "↓" : "")
+        </a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["AgeSort"]" asp-route-searchString="@ViewData["CurrentFilter"]"
+          age_asc" || currentSort == "age_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Вік @(currentSort == "age_asc" ? "↑" : currentSort == "age_desc" ? "↓" : "")
+        </a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["WeightSort"]" asp-route-searchString="@ViewData["CurrentFilter"]"
+          weight_asc" || currentSort == "weight_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Вага @(currentSort == "weight_asc" ? "↑" : currentSort == "weight_desc" ? "↓" : "")
+        </a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["GoalSort"]" asp-route-searchString="@ViewData["CurrentFilter"]"
+          goal_asc" || currentSort == "goal_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Мета @(currentSort == "goal_asc" ? "↑" : currentSort == "goal_desc" ? "↓" : "")
+        </a>
+    </div>
+
+    <div>
+        @foreach (var item in Model) {
+            <div>
+                <div>
+                    <div>
+                        <h5>@item.FullName</h5>
+                        <p><i></i>Вік: @(item.Age?.ToString() ?? "Не вказано")</p>
+                        <p><i></i>Вага: @(item.WeightKg?.ToString() ?? "Не вказано") кг</p>
+                        @if (!string.IsNullOrEmpty(item.Goal))
+                        {
+                            <p><span>Мета: @item.Goal</span></p>
+                        }
+                    </div>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

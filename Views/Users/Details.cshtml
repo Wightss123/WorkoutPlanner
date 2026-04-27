@@ -1,0 +1,215 @@
+@model WorkoutPlanner.Models.User
+
+@{
+    ViewData["Title"] = "Профіль клієнта";
+}
+
+<div>
+    <!-- Шапка профілю -->
+    <div style="background: linear-gradient(135deg, rgba(44, 104, 123, 0.3), rgba(219, 26, 26, 0.1)); border-radius: 1rem;">
+        <div>
+            <div>
+                <h2>@Model.FullName</h2>
+                <span>Вік: @Model.Age</span>
+                <span>Вага: @Model.WeightKg кг</span>
+                <span>Мета: @Model.Goal</span>
+            </div>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <!-- Рекомендація -->
+        <div>
+            <div style="background-color: rgba(255, 255, 255, 0.05); border-radius: 1rem; border-left: 5px solid var(--color-purple) !important;">
+                <div>
+                    <div>
+                        <h5>
+                            <span style="width: 40px; height: 40px; background: rgba(140, 199, 196, 0.2);">
+                                <i style="color: var(--color-purple);"></i>
+                            </span>
+                            Персональна порада
+                        </h5>
+                        <p style="line-height: 1.6;">@ViewBag.Recommendation</p>
+                    </div>
+                    <div>
+                        <a asp-controller="WorkoutLogs" asp-action="Create" asp-route-userId="@Model.Id" style="white-space: nowrap;">
+                            <i></i>Додати тренування
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Графік калорій -->
+        <div>
+            <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem;">
+                <div>
+                    <h5>🔥 Спалені калорії за типом</h5>
+                    
+                    @if (ViewBag.CardioCals == 0 && ViewBag.StrengthCals == 0 && ViewBag.FlexibilityCals == 0 && ViewBag.IntervalCals == 0)
+                    {
+                        <div>Немає даних для графіка.</div>
+                    }
+                    else
+                    {
+                        <canvas id="caloriesChart" style="max-height: 250px;"></canvas>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Історія тренувань -->
+        <div>
+            <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem;">
+                <div>
+                    <div>
+                        <h5>🕒 Останні тренування</h5>
+                    </div>
+
+                    @if (!Model.WorkoutLogs.Any())
+                    {
+                        <p>Журнал порожній.</p>
+                    }
+                    else
+                    {
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Дата</th>
+                                        <th>Назва</th>
+                                        <th>Тип</th>
+                                        <th>Калорії</th>
+                                        <th>Коментар</th>
+                                        <th>Дії</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var log in Model.WorkoutLogs.OrderByDescending(l => l.CompletedDate).Take(5))
+                                    {
+                                        <tr>
+                                            <td>@log.CompletedDate.ToString("dd.MM.yyyy")</td>
+                                            <td>
+                                                <div>@log.Workout?.Name</div>
+                                                @if (!string.IsNullOrEmpty(log.GetDetails()))
+                                                {
+                                                    <div>@log.GetDetails()</div>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if(log.WorkoutType == "Cardio") { <span><i></i>Кардіо</span> }
+                                                else if(log.WorkoutType == "Strength") { <span><i></i>Силове</span> }
+                                                else if(log.WorkoutType == "Interval") { <span><i></i>Інтервальне</span> }
+                                                else { <span><i></i>Гнучкість</span> }
+                                            </td>
+                                            <td>~@log.CalculateCaloriesBurned().ToString("F0") ккал</td>
+                                            <td>@(string.IsNullOrEmpty(log.Comment) ? "-" : $"\"{log.Comment}\"")</td>
+                                            <td>
+                                                <form asp-controller="WorkoutLogs" asp-action="Delete" asp-route-id="@log.Id" method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити це тренування?');">
+                                                    <button type="submit">Видалити</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Підключення бібліотеки Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var ctx = document.getElementById('caloriesChart');
+            if(ctx) {
+                var totalCalories = @(ViewBag.CardioCals + ViewBag.StrengthCals + ViewBag.FlexibilityCals + ViewBag.IntervalCals);
+                
+                const centerTextPlugin = {
+                    id: 'centerText',
+                    beforeDraw: function(chart) {
+                        if (chart.config.type !== 'doughnut') return;
+                        var ctx = chart.ctx;
+                        var chartArea = chart.chartArea;
+                        if (!chartArea) return;
+                        
+                        var centerX = chartArea.left + (chartArea.right - chartArea.left) / 2;
+                        var centerY = chartArea.top + (chartArea.bottom - chartArea.top) / 2;
+                
+                        ctx.restore();
+                        var fontSize = ((chartArea.bottom - chartArea.top) / 100).toFixed(2);
+                        ctx.font = "bold " + fontSize + "em Outfit, sans-serif";
+                        ctx.textBaseline = "middle";
+                        ctx.textAlign = "center";
+                        ctx.fillStyle = "#ffffff";
+                
+                        var text = totalCalories + " ккал";
+                        ctx.fillText(text, centerX, centerY - 10);
+                        
+                        ctx.font = (fontSize * 0.4).toFixed(2) + "em Outfit, sans-serif";
+                        ctx.fillStyle = "#adb5bd";
+                        var labelText = "Всього";
+                        ctx.fillText(labelText, centerX, centerY + 20);
+                        ctx.save();
+                    }
+                };
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Кардіо', 'Силове', 'Гнучкість', 'Інтервальне'],
+                        datasets: [{
+                            data: [
+                                @ViewBag.CardioCals, 
+                                @ViewBag.StrengthCals, 
+                                @ViewBag.FlexibilityCals,
+                                @ViewBag.IntervalCals
+                            ],
+                            backgroundColor: [
+                                '#dc3545',
+                                '#ffc107',
+                                '#198754',
+                                '#0dcaf0'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#212529',
+                            hoverOffset: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        cutout: '75%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { 
+                                    color: '#fff',
+                                    padding: 20,
+                                    font: { family: 'Outfit', size: 14 }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        var value = context.raw;
+                                        var percentage = Math.round((value / totalCalories) * 100);
+                                        return ' ' + value + ' ккал (' + percentage + '%)';
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    plugins: [centerTextPlugin]
+                });
+            }
+        });
+    </script>
+}

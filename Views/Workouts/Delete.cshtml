@@ -1,0 +1,20 @@
+@model WorkoutPlanner.Models.Workout
+
+@{
+    ViewData["Title"] = "Видалити тренування";
+}
+
+<div>
+    <div>
+        <div>
+            <h2>Видалити це тренування?</h2>
+            <h3>@Model.Name</h3>
+            <p>@Model.WorkoutType</p>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit">Так, видалити</button>
+                <a asp-action="Index">Ні, повернутися</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+@model WorkoutPlanner.Models.User
+
+@{
+    ViewData["Title"] = "Редагувати клієнта";
+}
+
+<div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    <h2>Редагування</h2>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div>
+                            <div>
+                                <input asp-for="FirstName" placeholder="Ім'я" />
+                                <label asp-for="FirstName">Ім'я</label>
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
+                            <div>
+                                <input asp-for="LastName" placeholder="Прізвище" />
+                                <label asp-for="LastName">Прізвище</label>
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <input asp-for="Age" placeholder="Вік" />
+                                <label asp-for="Age">Вік</label>
+                                <span asp-validation-for="Age"></span>
+                            </div>
+                            <div>
+                                <input asp-for="WeightKg" placeholder="Вага (кг)" />
+                                <label asp-for="WeightKg">Вага (кг)</label>
+                                <span asp-validation-for="WeightKg"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="Goal">Спортивна мета</label>
+                            <select asp-for="Goal" required>
+                                <option value="">Оберіть мету...</option>
+                                <option value="Схуднення / Жироспалювання">Схуднення / Жироспалювання</option>
+                                <option value="Набір м'язової маси">Набір м'язової маси</option>
+                                <option value="Підтримка форми / Тонус">Підтримка форми / Тонус</option>
+                                <option value="Розвиток витривалості">Розвиток витривалості</option>
+                                <option value="Покращення гнучкості та постави">Покращення гнучкості та постави</option>
+                                <option value="Рельєф / Сушка">Рельєф / Сушка</option>
+                                <option value="Відновлення / Реабілітація">Відновлення / Реабілітація</option>
+                            </select>
+                            <span asp-validation-for="Goal"></span>
+                        </div>
+
+                        <div>
+                            <button type="submit">Зберегти зміни</button>
+                            <button type="button" onclick="history.back()">Скасувати</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

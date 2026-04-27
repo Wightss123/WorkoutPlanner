@@ -1,0 +1,86 @@
+@model WorkoutPlanner.Models.Workout
+
+@{
+    ViewData["Title"] = "Створити тренування";
+}
+
+<div>
+    <div>
+        <div>
+            <div style="border-radius: 1rem;">
+                <div>
+                    <h3>Нове тренування (Довідник)</h3>
+                    
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        
+                        <div>
+                            <h5 style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
+                        </div>
+
+                        <div>
+                            <div>
+                                <label asp-for="Name">Назва тренування</label>
+                                <input asp-for="Name" placeholder="Наприклад: Жим лежачи" />
+                                <span asp-validation-for="Name"></span>
+                            </div>
+                            <div>
+                                <label asp-for="WorkoutType">Тип</label>
+                                <select asp-for="WorkoutType" id="WorkoutType">
+                                    <option value="Cardio">Кардіо</option>
+                                    <option value="Strength">Силове</option>
+                                    <option value="Flexibility">Гнучкість</option>
+                                    <option value="Interval">Інтервальне/Серійне</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label asp-for="MetValue">Інтенсивність</label>
+                                <select asp-for="MetValue" id="MetValue">
+                                    <option value="2.5">Легке навантаження</option>
+                                    <option value="5.0">Середнє навантаження</option>
+                                    <option value="8.0">Високе навантаження</option>
+                                    <option value="10.0">Екстремальне навантаження</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="Notes">Опис тренування</label>
+                            <textarea asp-for="Notes" style="height: 100px" placeholder="Короткий опис, на які м'язи розраховано тощо" required></textarea>
+                            <span asp-validation-for="Notes"></span>
+                        </div>
+
+                        <div>
+                            <button type="submit">Зберегти у довідник</button>
+                            <button type="button" onclick="history.back()">Скасувати</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const workoutType = document.getElementById('WorkoutType');
+            const metValue = document.getElementById('MetValue');
+
+            workoutType.addEventListener('change', function() {
+                const type = this.value;
+                if (type === 'Flexibility') {
+                    metValue.value = '2.5';
+                } else if (type === 'Strength') {
+                    metValue.value = '5.0';
+                } else if (type === 'Cardio') {
+                    metValue.value = '8.0';
+                } else if (type === 'Interval') {
+                    metValue.value = '10.0';
+                }
+            });
+        });
+    </script>
+}

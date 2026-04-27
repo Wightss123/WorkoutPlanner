@@ -1,0 +1,77 @@
+@model IEnumerable<WorkoutPlanner.Models.Workout>
+
+@{
+    ViewData["Title"] = "Тренування";
+}
+
+<div>
+    <div>
+        <h1>Тренування</h1>
+        <a asp-action="Create">
+            <i></i>Створити тренування
+        </a>
+    </div>
+
+    <form asp-action="Index" method="get">
+        <div>
+            <div>
+                <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Пошук за назвою..." style="min-width: 250px;">
+            </div>
+            <div>
+                <select name="workoutType" style="min-width: 200px;" onchange="this.form.submit()">
+                    <option value="">Всі типи тренувань</option>
+                    @if (ViewData["CurrentType"]?.ToString() == "Cardio") { <option value="Cardio" selected>Кардіо</option> } else { <option value="Cardio">Кардіо</option> }
+                    @if (ViewData["CurrentType"]?.ToString() == "Strength") { <option value="Strength" selected>Силове</option> } else { <option value="Strength">Силове</option> }
+                    @if (ViewData["CurrentType"]?.ToString() == "Flexibility") { <option value="Flexibility" selected>Гнучкість</option> } else { <option value="Flexibility">Гнучкість</option> }
+                    @if (ViewData["CurrentType"]?.ToString() == "Interval") { <option value="Interval" selected>Інтервальне</option> } else { <option value="Interval">Інтервальне</option> }
+                </select>
+            </div>
+
+            @if (ViewData["CurrentFilter"] != null || ViewData["CurrentType"] != null)
+            {
+                <div>
+                    <a asp-action="Index">Очистити</a>
+                </div>
+            }
+        </div>
+    </form>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Назва</th>
+                    <th>Тип</th>
+                    <th>Інтенсивність</th>
+                    <th>Дії</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            @if(item.WorkoutType == "Cardio") { <span><i></i>Кардіо</span> }
+                            else if(item.WorkoutType == "Strength") { <span><i></i>Силове</span> }
+                            else if(item.WorkoutType == "Interval") { <span><i></i>Інтервальне</span> }
+                            else { <span><i></i>Гнучкість</span> }
+                        </td>
+                        <td>
+                            <span>
+                                @if(item.MetValue <= 3.0) { <text>Легке</text> }
+                                else if(item.MetValue <= 6.0) { <text>Середнє</text> }
+                                else if(item.MetValue <= 8.0) { <text>Високе</text> }
+                                else { <text>Екстремальне</text> }
+                                (@item.MetValue MET)
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

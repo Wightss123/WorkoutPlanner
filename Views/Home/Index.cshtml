@@ -1,0 +1,135 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Дашборд Менеджера";
+}
+
+<div>
+    <div>
+        <div>
+            <h1>👋 Вітаємо в FitPlanner</h1>
+        </div>
+    </div>
+
+    <!-- Статистика -->
+    <div>
+        <div>
+            <a asp-controller="Users" asp-action="Index">
+                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-indigo) !important;">
+                    <div>
+                        <div style="width: 60px; height: 60px; background-color: rgba(44, 104, 123, 0.2);">
+                            <i></i>
+                        </div>
+                        <div>
+                            <h6>Клієнти</h6>
+                            <h2>@Model.TotalUsers</h2>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a asp-controller="Workouts" asp-action="Index">
+                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-red) !important;">
+                    <div>
+                        <div style="width: 60px; height: 60px; background-color: rgba(219, 26, 26, 0.2);">
+                            <i></i>
+                        </div>
+                        <div>
+                            <h6>Довідник тренувань</h6>
+                            <h2>@Model.TotalWorkouts</h2>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a asp-controller="WorkoutLogs" asp-action="Index">
+                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-purple) !important;">
+                    <div>
+                        <div style="width: 60px; height: 60px; background-color: rgba(140, 199, 196, 0.2);">
+                            <i style="color: var(--color-purple);"></i>
+                        </div>
+                        <div>
+                            <h6>Записів у Журналі</h6>
+                            <h2>@Model.TotalLogs</h2>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Швидкі дії та останні записи -->
+    <div>
+        <div>
+            <div style="border-radius: 1rem; background-color: var(--card-bg);">
+                <div>
+                    <h5>🕒 Останні пройдені тренування</h5>
+                </div>
+                <div>
+                    @if (Model.RecentLogs.Count == 0)
+                    {
+                        <div>
+                            <p>Журнал поки що порожній.</p>
+                            <a asp-controller="WorkoutLogs" asp-action="Create">Додати запис</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Клієнт</th>
+                                        <th>Тренування</th>
+                                        <th>Дата завершення</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var log in Model.RecentLogs)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a asp-controller="Users" asp-action="Details" asp-route-id="@log.User.Id" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
+                                                    @log.User.FirstName @log.User.LastName
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span style="background-color: var(--color-indigo);">
+                                                    @log.Workout.Name
+                                                </span>
+                                            </td>
+                                            <td>@log.CompletedDate.ToString("dd.MM.yyyy")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <a asp-controller="WorkoutLogs" asp-action="Index" style="color: var(--color-purple);">Всі записи &rarr;</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div style="background: linear-gradient(135deg, var(--color-indigo), var(--color-red)); border-radius: 1rem;">
+                <div>
+                    <h4>Швидкі Дії</h4>
+                    <p>Що ви хочете зробити зараз?</p>
+                    
+                    <a asp-controller="Users" asp-action="Create">
+                        + Новий Клієнт
+                    </a>
+                    <a asp-controller="Workouts" asp-action="Create">
+                        + Нове Тренування
+                    </a>
+                    <a asp-controller="WorkoutLogs" asp-action="Create" style="background-color: rgba(255,255,255,0.1);">
+                        📝 Запис у Журнал
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

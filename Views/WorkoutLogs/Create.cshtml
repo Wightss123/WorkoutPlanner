@@ -1,0 +1,269 @@
+@model WorkoutPlanner.Models.WorkoutLogViewModel
+
+@{
+    ViewData["Title"] = "Нове тренування";
+}
+
+<div>
+    <div>
+        <div>
+            <div style="border-radius: 1rem;">
+                <div>
+                    <h3>Нове тренування</h3>
+
+                    <form asp-action="Create" id="workoutLogForm">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        
+                        <div>
+                            <h5 style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
+                        </div>
+
+                        <div>
+                            <div>
+                                <label asp-for="WorkoutId">Назва тренування</label>
+                                <select asp-for="WorkoutId" asp-items="ViewBag.WorkoutId" id="workoutSelect"></select>
+                            </div>
+                            <div>
+                                <label>Тип</label>
+                                <div id="workoutTypeDisplay" style="background-color: #1a1e21 !important;" readonly>Кардіо</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <label asp-for="DurationMinutes">Тривалість (хв)</label>
+                                <input asp-for="DurationMinutes" type="number" min="1" value="0" />
+                            </div>
+                            <div>
+                                <label asp-for="CompletedDate">Дата</label>
+                                <input asp-for="CompletedDate" type="date" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="UserId">Клієнт</label>
+                            <select asp-for="UserId" asp-items="ViewBag.UserId"></select>
+                        </div>
+
+                        <div id="dynamicFieldsContainer" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);">
+                            
+                            <div id="cardioFields">
+                                <h6><i></i>Параметри Кардіо</h6>
+                                <div>
+                                    <div>
+                                        <label asp-for="AverageHeartRate">Середній пульс</label>
+                                        <input asp-for="AverageHeartRate" type="number" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="DistanceKm">Дистанція (км)</label>
+                                        <input asp-for="DistanceKm" type="number" step="0.1" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="strengthFields">
+                                <h6><i></i>Параметри Силового</h6>
+                                <div>
+                                    <div>
+                                        <label asp-for="WeightLiftedKg">Вага (кг)</label>
+                                        <input asp-for="WeightLiftedKg" type="number" step="0.5" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="Sets">Підходи</label>
+                                        <input asp-for="Sets" type="number" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="Reps">Повторення</label>
+                                        <input asp-for="Reps" type="number" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="intervalFields">
+                                <h6><i></i>Параметри Інтервального тренування</h6>
+                                <div>
+                                    <div>
+                                        <label asp-for="Sets">Підходи/Раунди</label>
+                                        <input asp-for="Sets" id="Sets" type="number" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="Reps">Повторення за раунд</label>
+                                        <input asp-for="Reps" id="Reps" type="number" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="WorkDurationSeconds">Час роботи за раунд (сек)</label>
+                                        <input asp-for="WorkDurationSeconds" type="number" min="0" />
+                                    </div>
+                                    <div>
+                                        <label asp-for="RestDurationSeconds">Час відпочинку між раундами (сек)</label>
+                                        <input asp-for="RestDurationSeconds" type="number" min="0" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="Comment">Нотатки</label>
+                            <textarea asp-for="Comment" placeholder="Нотатки (опціонально)" rows="2"></textarea>
+                        </div>
+
+                        <div>
+                            <button type="submit">Зберегти тренування</button>
+                            <button type="button" onclick="history.back()">Скасувати</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            function formatWorkoutGroup(item) {
+                if (!item.id) {
+                    let color = '#fff';
+                    let icon = '';
+                    if (item.text === 'Кардіо') { color = '#dc3545'; icon = 'bi-heart-pulse'; }
+                    else if (item.text === 'Силове') { color = '#ffc107'; icon = 'bi-lightning-charge'; }
+                    else if (item.text === 'Інтервальне') { color = '#0dcaf0'; icon = 'bi-stopwatch'; }
+                    else if (item.text === 'Гнучкість') { color = '#198754'; icon = 'bi-activity'; }
+                    
+                    return $('<span style="color:' + color + '; font-weight: bold; font-size: 1.1em;"><i></i>' + item.text + '</span>');
+                }
+                return item.text;
+            }
+
+            $('#workoutSelect').select2({
+                width: '100%',
+                placeholder: "Оберіть тренування...",
+                templateResult: formatWorkoutGroup,
+                language: {
+                    noResults: function() {
+                        return "Нічого не знайдено";
+                    }
+                }
+            });
+            $('#workoutSelect').on('select2:select', updateFields);
+        });
+
+        const workoutsData = @Html.Raw(ViewBag.WorkoutsJson);
+        const workoutSelect = document.getElementById('workoutSelect');
+        const workoutTypeDisplay = document.getElementById('workoutTypeDisplay');
+        const groups = document.querySelectorAll('.dynamic-group');
+
+        function updateFields() {
+            const selectedId = parseInt(workoutSelect.value);
+            const workout = workoutsData.find(w => w.Id === selectedId);
+            
+            if (workout) {
+                const type = workout.WorkoutType;
+                
+                let typeText = "Інше";
+                if(type === "Cardio") typeText = "Кардіо";
+                if(type === "Strength") typeText = "Силове";
+                if(type === "Flexibility") typeText = "Гнучкість";
+                if(type === "Interval") typeText = "Інтервальне";
+                workoutTypeDisplay.innerText = typeText;
+
+                groups.forEach(g => {
+                    g.classList.add('d-none');
+                    g.querySelectorAll('input').forEach(input => {
+                        input.removeAttribute('required');
+                        input.disabled = true;
+                    });
+                });
+                const container = document.getElementById('dynamicFieldsContainer');
+                if (type === 'Flexibility') {
+                    container.classList.add('d-none');
+                } else {
+                    container.classList.remove('d-none');
+                }
+
+                if (type === 'Cardio') {
+                    const g = document.getElementById('cardioFields');
+                    g.classList.remove('d-none');
+                    g.querySelectorAll('input').forEach(input => {
+                        input.setAttribute('required', 'required');
+                        input.disabled = false;
+                    });
+                }
+                else if (type === 'Strength') {
+                    const g = document.getElementById('strengthFields');
+                    g.classList.remove('d-none');
+                    g.querySelectorAll('input').forEach(input => {
+                        input.setAttribute('required', 'required');
+                        input.disabled = false;
+                    });
+                }
+                else if (type === 'Interval') {
+                    const g = document.getElementById('intervalFields');
+                    g.classList.remove('d-none');
+                    g.querySelectorAll('input').forEach(input => {
+                        input.disabled = false;
+                    });
+                    document.getElementById('Sets').setAttribute('required', 'required');
+                    document.getElementById('Reps').setAttribute('required', 'required');
+                }
+            }
+        }
+
+        workoutSelect.addEventListener('change', updateFields);
+        updateFields();
+    </script>
+    
+    <style>
+        .select2-container--default .select2-selection--single {
+            background-color: #212529;
+            border: 1px solid #6c757d;
+            border-radius: 0.375rem;
+            height: calc(3.5rem + 2px);
+            display: flex;
+            align-items: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #f8f9fa;
+            line-height: normal;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+        }
+        .select2-dropdown {
+            background-color: #212529;
+            border: 1px solid #6c757d;
+            color: #f8f9fa;
+        }
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px !important;
+            background-color: #212529 !important;
+            color: #f8f9fa !important;
+        }
+        .select2-container--default .select2-results__option[role="group"] {
+            padding: 0 !important;
+            margin-top: 0 !important;
+        }
+        .select2-results__group {
+            padding: 10px 12px 10px 12px !important;
+            border-bottom: 1px solid #495057;
+            background-color: #1a1e21 !important;
+            display: block;
+        }
+        .select2-container--default .select2-results__option--highlighted,
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #0dcaf0 !important;
+            color: #000000 !important;
+        }
+        .select2-container--default .select2-results__option[aria-selected="true"],
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #343a40 !important;
+            color: #f8f9fa !important;
+        }
+    </style>
+}

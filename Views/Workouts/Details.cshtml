@@ -1,0 +1,40 @@
+@model WorkoutPlanner.Models.Workout
+
+@{
+    ViewData["Title"] = "Деталі тренування";
+}
+
+<div>
+    <div>
+        <div>
+            <h2>Деталі тренування</h2>
+            <h3>@Model.Name</h3>
+            
+            <div>
+                @if(Model.WorkoutType == "Cardio") { <span><i></i>Кардіо</span> }
+                else if(Model.WorkoutType == "Strength") { <span><i></i>Силове</span> }
+                else if(Model.WorkoutType == "Interval") { <span><i></i>Інтервальне</span> }
+                else { <span><i></i>Гнучкість</span> }
+                
+                <span>
+                    <i></i>
+                    @if(Model.MetValue <= 3.0) { <text>Легке</text> }
+                    else if(Model.MetValue <= 6.0) { <text>Середнє</text> }
+                    else if(Model.MetValue <= 8.0) { <text>Високе</text> }
+                    else { <text>Екстремальне</text> }
+                    (@Model.MetValue MET)
+                </span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div style="background: rgba(255, 255, 255, 0.05); max-width: 600px; border-left: 4px solid var(--color-purple);">
+                    <h5>Опис тренування:</h5>
+                    <p style="font-size: 1.1rem; line-height: 1.6;">@Model.Notes</p>
+                </div>
+            }
+
+            <a asp-action="Index">Назад до списку</a>
+        </div>
+    </div>
+</div>

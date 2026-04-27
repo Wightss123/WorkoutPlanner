@@ -1,0 +1,116 @@
+@model IEnumerable<WorkoutPlanner.Models.WorkoutLog>
+
+@{
+    ViewData["Title"] = "Журнал тренувань";
+}
+
+<div>
+    <div>
+        <h1>Журнал тренувань</h1>
+        <a asp-action="Create">
+            + Додати запис
+        </a>
+    </div>
+
+    <form asp-action="Index" method="get">
+        <div>
+            <div>
+                <select name="clientId" asp-items="ViewBag.Clients" style="min-width: 200px;" onchange="this.form.submit()">
+                    <option value="">Всі клієнти</option>
+                </select>
+            </div>
+            @if (ViewBag.CurrentClient != null)
+            {
+                <div>
+                    <a asp-action="Index">Скинути</a>
+                </div>
+            }
+        </div>
+    </form>
+
+    <!-- Кнопки сортування -->
+    @{
+        var currentSort = ViewData["CurrentSort"]?.ToString();
+    }
+    <div>
+        <span><i></i>Сортувати:</span>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
+          date_asc" || currentSort == "date_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Дата @(currentSort == "date_asc" ? "↑" : currentSort == "date_desc" ? "↓" : "")
+        </a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["ClientSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
+          client_asc" || currentSort == "client_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Клієнт @(currentSort == "client_asc" ? "↑" : currentSort == "client_desc" ? "↓" : "")
+        </a>
+        <a asp-action="Index" asp-route-sortOrder="@ViewData["TypeSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
+          type_asc" || currentSort == "type_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+            Тип @(currentSort == "type_asc" ? "↑" : currentSort == "type_desc" ? "↓" : "")
+        </a>
+    </div>
+
+    <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem;">
+        <div>
+            @if (!Model.Any())
+            {
+                <div>
+                    <p>Журнал поки що порожній.</p>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <table>
+                        <thead style="background-color: rgba(0,0,0,0.2);">
+                            <tr>
+                                <th>Дата</th>
+                                <th>Клієнт</th>
+                                <th>Тренування</th>
+                                <th>Калорії</th>
+                                <th>Коментар</th>
+                                <th>Дії</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span>@item.CompletedDate.ToString("dd.MM.yyyy")</span>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.User?.Id" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
+                                            @item.User?.FullName
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div>@item.Workout?.Name</div>
+                                        @if (!string.IsNullOrEmpty(item.GetDetails()))
+                                        {
+                                            <div>@item.GetDetails()</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span>~@(item.CalculateCaloriesBurned().ToString("F0")) ккал</span>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Comment))
+                                        {
+                                            <span>"@item.Comment"</span>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
