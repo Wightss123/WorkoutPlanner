@@ -83,7 +83,39 @@ namespace WorkoutPlanner.Controllers
                 if (workout == null) return NotFound();
 
                 WorkoutLog log;
-                var log = new WorkoutLog();`n        log.UserId = vm.UserId;
+                switch (workout.WorkoutType)
+                {
+                    case "Cardio":
+                        log = new CardioWorkoutLog
+                        {
+                            AverageHeartRate = vm.AverageHeartRate ?? 120,
+                            DistanceKm = vm.DistanceKm ?? 0
+                        };
+                        break;
+                    case "Strength":
+                        log = new StrengthWorkoutLog
+                        {
+                            WeightLiftedKg = vm.WeightLiftedKg ?? 0,
+                            Sets = vm.Sets ?? 1,
+                            Reps = vm.Reps ?? 1
+                        };
+                        break;
+                    case "Interval":
+                        log = new IntervalWorkoutLog
+                        {
+                            Sets = vm.Sets ?? 1,
+                            Reps = vm.Reps ?? 10,
+                            WorkDurationSeconds = vm.WorkDurationSeconds ?? 40,
+                            RestDurationSeconds = vm.RestDurationSeconds ?? 20
+                        };
+                        break;
+                    case "Flexibility":
+                    default:
+                        log = new FlexibilityWorkoutLog();
+                        break;
+                }
+
+                log.UserId = vm.UserId;
                 log.WorkoutId = vm.WorkoutId;
                 log.WorkoutType = workout.WorkoutType;
                 log.CompletedDate = vm.CompletedDate;
