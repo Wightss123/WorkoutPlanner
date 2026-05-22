@@ -11,11 +11,13 @@ namespace WorkoutPlanner.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        
+        private readonly RecommendationService _recommendationService;
+
         public UsersController(ApplicationDbContext context, RecommendationService recommendationService)
         {
             _context = context;
-                    }
+            _recommendationService = recommendationService;
+        }
 
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
