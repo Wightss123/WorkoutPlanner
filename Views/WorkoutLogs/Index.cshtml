@@ -4,25 +4,25 @@
     ViewData["Title"] = "Журнал тренувань";
 }
 
-<div>
-    <div>
-        <h1>Журнал тренувань</h1>
-        <a asp-action="Create">
+<div class="container mt-4 fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold text-white mb-0">Журнал тренувань</h1>
+        <a asp-action="Create" class="btn btn-light text-dark rounded-pill px-4 py-2 fw-bold shadow-sm">
             + Додати запис
         </a>
     </div>
 
-    <form asp-action="Index" method="get">
-        <div>
-            <div>
-                <select name="clientId" asp-items="ViewBag.Clients" style="min-width: 200px;" onchange="this.form.submit()">
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="row g-2 align-items-center">
+            <div class="col-auto">
+                <select name="clientId" class="form-select bg-dark text-light border-secondary" asp-items="ViewBag.Clients" style="min-width: 200px;" onchange="this.form.submit()">
                     <option value="">Всі клієнти</option>
                 </select>
             </div>
             @if (ViewBag.CurrentClient != null)
             {
-                <div>
-                    <a asp-action="Index">Скинути</a>
+                <div class="col-auto">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Скинути</a>
                 </div>
             }
         </div>
@@ -32,67 +32,67 @@
     @{
         var currentSort = ViewData["CurrentSort"]?.ToString();
     }
-    <div>
-        <span><i></i>Сортувати:</span>
+    <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+        <span class="text-muted me-2"><i class="bi bi-sort-alpha-down me-1"></i>Сортувати:</span>
         <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
-          date_asc" || currentSort == "date_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+           class="btn btn-sm @(currentSort == "date_asc" || currentSort == "date_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
             Дата @(currentSort == "date_asc" ? "↑" : currentSort == "date_desc" ? "↓" : "")
         </a>
         <a asp-action="Index" asp-route-sortOrder="@ViewData["ClientSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
-          client_asc" || currentSort == "client_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+           class="btn btn-sm @(currentSort == "client_asc" || currentSort == "client_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
             Клієнт @(currentSort == "client_asc" ? "↑" : currentSort == "client_desc" ? "↓" : "")
         </a>
         <a asp-action="Index" asp-route-sortOrder="@ViewData["TypeSort"]" asp-route-clientId="@ViewData["CurrentClient"]"
-          type_asc" || currentSort == "type_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
+           class="btn btn-sm @(currentSort == "type_asc" || currentSort == "type_desc" ? "btn-info text-dark" : "btn-outline-secondary") rounded-pill px-3">
             Тип @(currentSort == "type_asc" ? "↑" : currentSort == "type_desc" ? "↓" : "")
         </a>
     </div>
 
-    <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem;">
-        <div>
+    <div class="card shadow-sm border-0" style="background-color: rgba(255,255,255,0.05); border-radius: 1rem;">
+        <div class="card-body p-0">
             @if (!Model.Any())
             {
-                <div>
-                    <p>Журнал поки що порожній.</p>
+                <div class="text-center text-muted py-5">
+                    <p class="fs-5 mb-0">Журнал поки що порожній.</p>
                 </div>
             }
             else
             {
-                <div>
-                    <table>
+                <div class="table-responsive">
+                    <table class="table table-borderless align-middle mb-0 text-white">
                         <thead style="background-color: rgba(0,0,0,0.2);">
-                            <tr>
-                                <th>Дата</th>
-                                <th>Клієнт</th>
-                                <th>Тренування</th>
-                                <th>Калорії</th>
-                                <th>Коментар</th>
-                                <th>Дії</th>
+                            <tr class="text-muted">
+                                <th class="ps-4 py-3 text-start">Дата</th>
+                                <th class="py-3 text-start">Клієнт</th>
+                                <th class="py-3 text-start">Тренування</th>
+                                <th class="py-3 text-start">Калорії</th>
+                                <th class="py-3 text-start">Коментар</th>
+                                <th class="text-end pe-4 py-3">Дії</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        <span>@item.CompletedDate.ToString("dd.MM.yyyy")</span>
+                                <tr class="border-bottom border-secondary">
+                                    <td class="ps-4 py-3">
+                                        <span class="badge bg-secondary rounded-pill fw-normal">@item.CompletedDate.ToString("dd.MM.yyyy")</span>
                                     </td>
-                                    <td>
-                                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.User?.Id" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
+                                    <td class="py-3 fw-semibold">
+                                        <a asp-controller="Users" asp-action="Details" asp-route-id="@item.User?.Id" class="text-white text-decoration-none" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
                                             @item.User?.FullName
                                         </a>
                                     </td>
-                                    <td>
-                                        <div>@item.Workout?.Name</div>
+                                    <td class="py-3">
+                                        <div class="text-light fw-semibold">@item.Workout?.Name</div>
                                         @if (!string.IsNullOrEmpty(item.GetDetails()))
                                         {
-                                            <div>@item.GetDetails()</div>
+                                            <div class="text-muted small">@item.GetDetails()</div>
                                         }
                                     </td>
-                                    <td>
-                                        <span>~@(item.CalculateCaloriesBurned().ToString("F0")) ккал</span>
+                                    <td class="py-3">
+                                        <span class="text-warning fw-bold">~@(item.CalculateCaloriesBurned().ToString("F0")) ккал</span>
                                     </td>
-                                    <td>
+                                    <td class="py-3 text-muted small fst-italic">
                                         @if (!string.IsNullOrEmpty(item.Comment))
                                         {
                                             <span>"@item.Comment"</span>
@@ -102,8 +102,8 @@
                                             <span>-</span>
                                         }
                                     </td>
-                                    <td>
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                                    <td class="text-end pe-4 py-3">
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-pill px-3">Видалити</a>
                                     </td>
                                 </tr>
                             }

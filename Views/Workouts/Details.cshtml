@@ -4,20 +4,20 @@
     ViewData["Title"] = "Деталі тренування";
 }
 
-<div>
-    <div>
-        <div>
-            <h2>Деталі тренування</h2>
-            <h3>@Model.Name</h3>
+<div class="container mt-5 fade-in">
+    <div class="card glass-card">
+        <div class="card-body p-5 text-center">
+            <h2 class="fw-bold text-gradient mb-4">Деталі тренування</h2>
+            <h3 class="fw-bold">@Model.Name</h3>
             
-            <div>
-                @if(Model.WorkoutType == "Cardio") { <span><i></i>Кардіо</span> }
-                else if(Model.WorkoutType == "Strength") { <span><i></i>Силове</span> }
-                else if(Model.WorkoutType == "Interval") { <span><i></i>Інтервальне</span> }
-                else { <span><i></i>Гнучкість</span> }
+            <div class="mt-4">
+                @if(Model.WorkoutType == "Cardio") { <span class="badge bg-danger rounded-pill px-3 py-2 me-2 mb-2"><i class="bi bi-heart-pulse me-1"></i>Кардіо</span> }
+                else if(Model.WorkoutType == "Strength") { <span class="badge bg-warning text-dark rounded-pill px-3 py-2 me-2 mb-2"><i class="bi bi-lightning-charge me-1"></i>Силове</span> }
+                else if(Model.WorkoutType == "Interval") { <span class="badge bg-info text-dark rounded-pill px-3 py-2 me-2 mb-2"><i class="bi bi-stopwatch me-1"></i>Інтервальне</span> }
+                else { <span class="badge bg-success rounded-pill px-3 py-2 me-2 mb-2"><i class="bi bi-activity me-1"></i>Гнучкість</span> }
                 
-                <span>
-                    <i></i>
+                <span class="badge bg-secondary rounded-pill px-3 py-2 mb-2">
+                    <i class="bi bi-speedometer2 me-1"></i>
                     @if(Model.MetValue <= 3.0) { <text>Легке</text> }
                     else if(Model.MetValue <= 6.0) { <text>Середнє</text> }
                     else if(Model.MetValue <= 8.0) { <text>Високе</text> }
@@ -28,13 +28,13 @@
 
             @if (!string.IsNullOrEmpty(Model.Notes))
             {
-                <div style="background: rgba(255, 255, 255, 0.05); max-width: 600px; border-left: 4px solid var(--color-purple);">
-                    <h5>Опис тренування:</h5>
-                    <p style="font-size: 1.1rem; line-height: 1.6;">@Model.Notes</p>
+                <div class="mt-4 p-4 rounded-3 text-start mx-auto" style="background: rgba(255, 255, 255, 0.05); max-width: 600px; border-left: 4px solid var(--color-purple);">
+                    <h5 class="fw-bold text-white mb-2">Опис тренування:</h5>
+                    <p class="text-light mb-0" style="font-size: 1.1rem; line-height: 1.6;">@Model.Notes</p>
                 </div>
             }
 
-            <a asp-action="Index">Назад до списку</a>
+            <a asp-action="Index" class="btn btn-outline-light mt-4 rounded-pill">Назад до списку</a>
         </div>
     </div>
 </div>

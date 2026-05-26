@@ -4,15 +4,15 @@
     ViewData["Title"] = "Видалити клієнта";
 }
 
-<div>
-    <div>
-        <div>
-            <h2>Ви впевнені, що хочете видалити цього клієнта?</h2>
+<div class="container mt-5 fade-in">
+    <div class="card glass-card border-danger">
+        <div class="card-body p-5 text-center">
+            <h2 class="text-danger fw-bold mb-4">Ви впевнені, що хочете видалити цього клієнта?</h2>
             <h4>@Model.FullName</h4>
-            <form asp-action="Delete">
+            <form asp-action="Delete" class="mt-4">
                 <input type="hidden" asp-for="Id" />
-                <button type="submit">Так, видалити</button>
-                <a asp-action="Index">Ні, повернутися</a>
+                <button type="submit" class="btn btn-danger btn-glow rounded-pill px-5 py-2 me-2">Так, видалити</button>
+                <a asp-action="Index" class="btn btn-outline-light rounded-pill px-4 py-2">Ні, повернутися</a>
             </form>
         </div>
     </div>

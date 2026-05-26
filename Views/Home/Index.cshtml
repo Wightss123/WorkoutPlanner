@@ -3,55 +3,55 @@
     ViewData["Title"] = "Дашборд Менеджера";
 }
 
-<div>
-    <div>
-        <div>
-            <h1>👋 Вітаємо в FitPlanner</h1>
+<div class="container-fluid mt-4">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-5 text-white fw-bold mb-2">👋 Вітаємо в FitPlanner</h1>
         </div>
     </div>
 
     <!-- Статистика -->
-    <div>
-        <div>
-            <a asp-controller="Users" asp-action="Index">
-                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-indigo) !important;">
-                    <div>
-                        <div style="width: 60px; height: 60px; background-color: rgba(44, 104, 123, 0.2);">
-                            <i></i>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <a asp-controller="Users" asp-action="Index" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 premium-hover" style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-indigo) !important;">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="rounded-circle d-flex justify-content-center align-items-center me-4" style="width: 60px; height: 60px; background-color: rgba(44, 104, 123, 0.2);">
+                            <i class="bi bi-people-fill fs-2 text-info"></i>
                         </div>
                         <div>
-                            <h6>Клієнти</h6>
-                            <h2>@Model.TotalUsers</h2>
+                            <h6 class="text-muted text-uppercase fw-bold mb-1">Клієнти</h6>
+                            <h2 class="mb-0 text-white fw-bold">@Model.TotalUsers</h2>
                         </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div>
-            <a asp-controller="Workouts" asp-action="Index">
-                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-red) !important;">
-                    <div>
-                        <div style="width: 60px; height: 60px; background-color: rgba(219, 26, 26, 0.2);">
-                            <i></i>
+        <div class="col-md-4">
+            <a asp-controller="Workouts" asp-action="Index" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 premium-hover" style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-red) !important;">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="rounded-circle d-flex justify-content-center align-items-center me-4" style="width: 60px; height: 60px; background-color: rgba(219, 26, 26, 0.2);">
+                            <i class="bi bi-lightning-charge-fill fs-2 text-danger"></i>
                         </div>
                         <div>
-                            <h6>Довідник тренувань</h6>
-                            <h2>@Model.TotalWorkouts</h2>
+                            <h6 class="text-muted text-uppercase fw-bold mb-1">Довідник тренувань</h6>
+                            <h2 class="mb-0 text-white fw-bold">@Model.TotalWorkouts</h2>
                         </div>
                     </div>
                 </div>
             </a>
         </div>
-        <div>
-            <a asp-controller="WorkoutLogs" asp-action="Index">
-                <div style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-purple) !important;">
-                    <div>
-                        <div style="width: 60px; height: 60px; background-color: rgba(140, 199, 196, 0.2);">
-                            <i style="color: var(--color-purple);"></i>
+        <div class="col-md-4">
+            <a asp-controller="WorkoutLogs" asp-action="Index" class="text-decoration-none">
+                <div class="card h-100 shadow-sm border-0 premium-hover" style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; border-left: 5px solid var(--color-purple) !important;">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="rounded-circle d-flex justify-content-center align-items-center me-4" style="width: 60px; height: 60px; background-color: rgba(140, 199, 196, 0.2);">
+                            <i class="bi bi-journal-text fs-2" style="color: var(--color-purple);"></i>
                         </div>
                         <div>
-                            <h6>Записів у Журналі</h6>
-                            <h2>@Model.TotalLogs</h2>
+                            <h6 class="text-muted text-uppercase fw-bold mb-1">Записів у Журналі</h6>
+                            <h2 class="mb-0 text-white fw-bold">@Model.TotalLogs</h2>
                         </div>
                     </div>
                 </div>
@@ -60,26 +60,26 @@
     </div>
 
     <!-- Швидкі дії та останні записи -->
-    <div>
-        <div>
-            <div style="border-radius: 1rem; background-color: var(--card-bg);">
-                <div>
-                    <h5>🕒 Останні пройдені тренування</h5>
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 h-100" style="border-radius: 1rem; background-color: var(--card-bg);">
+                <div class="card-header bg-transparent border-0 pt-4 pb-0 px-4">
+                    <h5 class="fw-bold text-white mb-0">🕒 Останні пройдені тренування</h5>
                 </div>
-                <div>
+                <div class="card-body p-4">
                     @if (Model.RecentLogs.Count == 0)
                     {
-                        <div>
+                        <div class="text-center text-muted py-4">
                             <p>Журнал поки що порожній.</p>
-                            <a asp-controller="WorkoutLogs" asp-action="Create">Додати запис</a>
+                            <a asp-controller="WorkoutLogs" asp-action="Create" class="btn btn-outline-light rounded-pill px-4 mt-2">Додати запис</a>
                         </div>
                     }
                     else
                     {
-                        <div>
-                            <table>
+                        <div class="table-responsive">
+                            <table class="table table-borderless align-middle mb-0 text-white">
                                 <thead>
-                                    <tr>
+                                    <tr class="text-muted border-bottom border-secondary">
                                         <th>Клієнт</th>
                                         <th>Тренування</th>
                                         <th>Дата завершення</th>
@@ -89,13 +89,13 @@
                                     @foreach (var log in Model.RecentLogs)
                                     {
                                         <tr>
-                                            <td>
-                                                <a asp-controller="Users" asp-action="Details" asp-route-id="@log.User.Id" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
+                                            <td class="fw-semibold">
+                                                <a asp-controller="Users" asp-action="Details" asp-route-id="@log.User.Id" class="text-white text-decoration-none" style="border-bottom: 1px dashed rgba(255,255,255,0.5);">
                                                     @log.User.FirstName @log.User.LastName
                                                 </a>
                                             </td>
                                             <td>
-                                                <span style="background-color: var(--color-indigo);">
+                                                <span class="badge rounded-pill" style="background-color: var(--color-indigo);">
                                                     @log.Workout.Name
                                                 </span>
                                             </td>
@@ -105,27 +105,27 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <a asp-controller="WorkoutLogs" asp-action="Index" style="color: var(--color-purple);">Всі записи &rarr;</a>
+                        <div class="text-end mt-3">
+                            <a asp-controller="WorkoutLogs" asp-action="Index" class="text-decoration-none" style="color: var(--color-purple);">Всі записи &rarr;</a>
                         </div>
                     }
                 </div>
             </div>
         </div>
 
-        <div>
-            <div style="background: linear-gradient(135deg, var(--color-indigo), var(--color-red)); border-radius: 1rem;">
-                <div>
-                    <h4>Швидкі Дії</h4>
-                    <p>Що ви хочете зробити зараз?</p>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100" style="background: linear-gradient(135deg, var(--color-indigo), var(--color-red)); border-radius: 1rem;">
+                <div class="card-body p-4 text-white d-flex flex-column justify-content-center text-center">
+                    <h4 class="fw-bold mb-3">Швидкі Дії</h4>
+                    <p class="mb-4 text-white-50">Що ви хочете зробити зараз?</p>
                     
-                    <a asp-controller="Users" asp-action="Create">
+                    <a asp-controller="Users" asp-action="Create" class="btn btn-light rounded-pill fw-bold py-2 mb-3 shadow-sm text-dark">
                         + Новий Клієнт
                     </a>
-                    <a asp-controller="Workouts" asp-action="Create">
+                    <a asp-controller="Workouts" asp-action="Create" class="btn btn-outline-light rounded-pill fw-bold py-2 mb-3">
                         + Нове Тренування
                     </a>
-                    <a asp-controller="WorkoutLogs" asp-action="Create" style="background-color: rgba(255,255,255,0.1);">
+                    <a asp-controller="WorkoutLogs" asp-action="Create" class="btn btn-outline-light border-0 rounded-pill fw-bold py-2" style="background-color: rgba(255,255,255,0.1);">
                         📝 Запис у Журнал
                     </a>
                 </div>

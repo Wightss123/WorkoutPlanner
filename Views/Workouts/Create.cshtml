@@ -4,38 +4,38 @@
     ViewData["Title"] = "Створити тренування";
 }
 
-<div>
-    <div>
-        <div>
-            <div style="border-radius: 1rem;">
-                <div>
-                    <h3>Нове тренування (Довідник)</h3>
+<div class="container mt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card glass-card shadow-lg border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold text-white text-center mb-4">Нове тренування (Довідник)</h3>
                     
                     <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         
-                        <div>
-                            <h5 style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
+                        <div class="mb-4">
+                            <h5 class="text-white mb-3" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
                         </div>
 
-                        <div>
-                            <div>
-                                <label asp-for="Name">Назва тренування</label>
-                                <input asp-for="Name" placeholder="Наприклад: Жим лежачи" />
-                                <span asp-validation-for="Name"></span>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-5 text-start">
+                                <label asp-for="Name" class="form-label text-muted fw-bold mb-1">Назва тренування</label>
+                                <input asp-for="Name" class="form-control bg-dark text-light border-secondary" placeholder="Наприклад: Жим лежачи" />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
                             </div>
-                            <div>
-                                <label asp-for="WorkoutType">Тип</label>
-                                <select asp-for="WorkoutType" id="WorkoutType">
+                            <div class="col-md-3 text-start">
+                                <label asp-for="WorkoutType" class="form-label text-muted fw-bold mb-1">Тип</label>
+                                <select asp-for="WorkoutType" id="WorkoutType" class="form-select bg-dark text-light border-secondary">
                                     <option value="Cardio">Кардіо</option>
                                     <option value="Strength">Силове</option>
                                     <option value="Flexibility">Гнучкість</option>
                                     <option value="Interval">Інтервальне/Серійне</option>
                                 </select>
                             </div>
-                            <div>
-                                <label asp-for="MetValue">Інтенсивність</label>
-                                <select asp-for="MetValue" id="MetValue">
+                            <div class="col-md-4 text-start">
+                                <label asp-for="MetValue" class="form-label text-muted fw-bold mb-1">Інтенсивність</label>
+                                <select asp-for="MetValue" id="MetValue" class="form-select bg-dark text-light border-secondary">
                                     <option value="2.5">Легке навантаження</option>
                                     <option value="5.0">Середнє навантаження</option>
                                     <option value="8.0">Високе навантаження</option>
@@ -44,15 +44,15 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label asp-for="Notes">Опис тренування</label>
-                            <textarea asp-for="Notes" style="height: 100px" placeholder="Короткий опис, на які м'язи розраховано тощо" required></textarea>
-                            <span asp-validation-for="Notes"></span>
+                        <div class="mt-4 text-start">
+                            <label asp-for="Notes" class="form-label text-muted fw-bold mb-1">Опис тренування</label>
+                            <textarea asp-for="Notes" class="form-control bg-dark text-light border-secondary" style="height: 100px" placeholder="Короткий опис, на які м'язи розраховано тощо" required></textarea>
+                            <span asp-validation-for="Notes" class="text-danger small"></span>
                         </div>
 
-                        <div>
-                            <button type="submit">Зберегти у довідник</button>
-                            <button type="button" onclick="history.back()">Скасувати</button>
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-glow rounded-pill py-2 fw-bold">Зберегти у довідник</button>
+                            <button type="button" onclick="history.back()" class="btn btn-outline-light rounded-pill py-2">Скасувати</button>
                         </div>
                     </form>
                 </div>

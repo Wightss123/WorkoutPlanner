@@ -11,84 +11,84 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-dark text-light min-vh-100 d-flex flex-column">
     
     <header>
-        <nav>
-            <div>
-                <a asp-area="" asp-controller="Home" asp-action="Index">
-                    <i></i>FitPlanner
+        <nav class="navbar navbar-expand-sm navbar-dark glass-nav mb-4 border-bottom border-secondary">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-gradient fs-3" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-activity me-2"></i>FitPlanner
                 </a>
-                <button type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div>
-                    <ul>
-                        <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-light nav-hover" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
                         </li>
-                        <li>
-                            <a asp-area="" asp-controller="Users" asp-action="Index">Клієнти</a>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-light nav-hover" asp-area="" asp-controller="Users" asp-action="Index">Клієнти</a>
                         </li>
-                        <li>
-                            <a asp-area="" asp-controller="Workouts" asp-action="Index">Тренування</a>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-light nav-hover" asp-area="" asp-controller="Workouts" asp-action="Index">Тренування</a>
                         </li>
-                        <li>
-                            <a asp-area="" asp-controller="WorkoutLogs" asp-action="Index">Журнал</a>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-light nav-hover" asp-area="" asp-controller="WorkoutLogs" asp-action="Index">Журнал</a>
                         </li>
-                        <li>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">Про застосунок</a>
+                        <li class="nav-item px-2">
+                            <a class="nav-link text-light nav-hover" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">Про застосунок</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <main role="main">
+    <main role="main" class="container flex-grow-1 z-index-1 position-relative">
         @RenderBody()
     </main>
 
     <!-- Модальне діалогове вікно "Про застосунок" -->
-    <div id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
-        <div>
-            <div style="border-radius: 1rem;">
-                <div>
-                    <h5 id="aboutModalLabel">
-                        <i></i>Про застосунок
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark border border-secondary" style="border-radius: 1rem;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-gradient fw-bold" id="aboutModalLabel">
+                        <i class="bi bi-info-circle me-2"></i>Про застосунок
                     </h5>
-                    <button type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div>
-                    <div>
-                        <div style="width: 100px; height: 100px; font-size: 2.5rem;">
-                            <i></i>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <div class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                            <i class="bi bi-person-fill text-light"></i>
                         </div>
                     </div>
-                    <h4>FitPlanner v1.0</h4>
-                    <p>Система управління тренуваннями</p>
-                    <hr />
-                    <div>
-                        <p><i></i><strong>Розробник:</strong> <span>Дмитро Митник</span></p>
-                        <p><i></i><strong>Навчальний заклад:</strong> <span>ЧНУ ім. Б. Хмельницького</span></p>
-                        <p><i></i><strong>Дисципліна:</strong> <span>Об'єктно-орієнтоване програмування</span></p>
-                        <p><i></i><strong>Рік:</strong> <span>2026</span></p>
+                    <h4 class="fw-bold text-white mb-1">FitPlanner v1.0</h4>
+                    <p class="text-muted mb-3">Система управління тренуваннями</p>
+                    <hr class="border-secondary" />
+                    <div class="text-start px-3">
+                        <p class="mb-2"><i class="bi bi-person me-2 text-info"></i><strong>Розробник:</strong> <span class="text-light">Дмитро Митник</span></p>
+                        <p class="mb-2"><i class="bi bi-mortarboard me-2 text-info"></i><strong>Навчальний заклад:</strong> <span class="text-light">ЧНУ ім. Б. Хмельницького</span></p>
+                        <p class="mb-2"><i class="bi bi-book me-2 text-info"></i><strong>Дисципліна:</strong> <span class="text-light">Об'єктно-орієнтоване програмування</span></p>
+                        <p class="mb-2"><i class="bi bi-calendar me-2 text-info"></i><strong>Рік:</strong> <span class="text-light">2026</span></p>
                     </div>
-                    <hr />
-                    <p>
+                    <hr class="border-secondary" />
+                    <p class="text-muted small mb-0">
                         Побудовано з використанням ASP.NET Core MVC, Entity Framework Core, SQLite та Bootstrap 5.
                     </p>
                 </div>
-                <div>
-                    <button type="button" data-bs-dismiss="modal">Закрити</button>
+                <div class="modal-footer border-secondary justify-content-center">
+                    <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">Закрити</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div>
-            &copy; 2026 - FitPlanner - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфіденційність</a>
+    <footer class="border-top border-secondary footer text-muted mt-5 glass-nav z-index-1 position-relative">
+        <div class="container py-3 text-center">
+            &copy; 2026 - FitPlanner - <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-info text-decoration-none">Конфіденційність</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

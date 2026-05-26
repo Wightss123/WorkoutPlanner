@@ -4,45 +4,45 @@
     ViewData["Title"] = "Редагувати клієнта";
 }
 
-<div>
-    <div>
-        <div>
-            <div>
-                <div>
-                    <h2>Редагування</h2>
+<div class="container mt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card glass-card">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 fw-bold text-gradient">Редагування</h2>
                     <form asp-action="Edit">
-                        <div asp-validation-summary="ModelOnly"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <input type="hidden" asp-for="Id" />
                         
-                        <div>
-                            <div>
-                                <input asp-for="FirstName" placeholder="Ім'я" />
-                                <label asp-for="FirstName">Ім'я</label>
-                                <span asp-validation-for="FirstName"></span>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6 form-floating">
+                                <input asp-for="FirstName" class="form-control bg-dark text-light border-secondary" placeholder="Ім'я" />
+                                <label asp-for="FirstName" class="text-muted ms-2">Ім'я</label>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
-                            <div>
-                                <input asp-for="LastName" placeholder="Прізвище" />
-                                <label asp-for="LastName">Прізвище</label>
-                                <span asp-validation-for="LastName"></span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                <input asp-for="Age" placeholder="Вік" />
-                                <label asp-for="Age">Вік</label>
-                                <span asp-validation-for="Age"></span>
-                            </div>
-                            <div>
-                                <input asp-for="WeightKg" placeholder="Вага (кг)" />
-                                <label asp-for="WeightKg">Вага (кг)</label>
-                                <span asp-validation-for="WeightKg"></span>
+                            <div class="col-md-6 form-floating">
+                                <input asp-for="LastName" class="form-control bg-dark text-light border-secondary" placeholder="Прізвище" />
+                                <label asp-for="LastName" class="text-muted ms-2">Прізвище</label>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                         </div>
 
-                        <div>
-                            <label asp-for="Goal">Спортивна мета</label>
-                            <select asp-for="Goal" required>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6 form-floating">
+                                <input asp-for="Age" class="form-control bg-dark text-light border-secondary" placeholder="Вік" />
+                                <label asp-for="Age" class="text-muted ms-2">Вік</label>
+                                <span asp-validation-for="Age" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input asp-for="WeightKg" class="form-control bg-dark text-light border-secondary" placeholder="Вага (кг)" />
+                                <label asp-for="WeightKg" class="text-muted ms-2">Вага (кг)</label>
+                                <span asp-validation-for="WeightKg" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 text-start">
+                            <label asp-for="Goal" class="form-label text-muted fw-bold mb-1">Спортивна мета</label>
+                            <select asp-for="Goal" class="form-select bg-dark text-light border-secondary" required>
                                 <option value="">Оберіть мету...</option>
                                 <option value="Схуднення / Жироспалювання">Схуднення / Жироспалювання</option>
                                 <option value="Набір м'язової маси">Набір м'язової маси</option>
@@ -52,12 +52,12 @@
                                 <option value="Рельєф / Сушка">Рельєф / Сушка</option>
                                 <option value="Відновлення / Реабілітація">Відновлення / Реабілітація</option>
                             </select>
-                            <span asp-validation-for="Goal"></span>
+                            <span asp-validation-for="Goal" class="text-danger small"></span>
                         </div>
 
-                        <div>
-                            <button type="submit">Зберегти зміни</button>
-                            <button type="button" onclick="history.back()">Скасувати</button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-glow rounded-pill py-3 fw-bold">Зберегти зміни</button>
+                            <button type="button" onclick="history.back()" class="btn btn-outline-light rounded-pill py-2">Скасувати</button>
                         </div>
                     </form>
                 </div>

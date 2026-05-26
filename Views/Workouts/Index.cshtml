@@ -4,21 +4,21 @@
     ViewData["Title"] = "Тренування";
 }
 
-<div>
-    <div>
-        <h1>Тренування</h1>
-        <a asp-action="Create">
-            <i></i>Створити тренування
+<div class="container mt-5 fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold text-gradient">Тренування</h1>
+        <a asp-action="Create" class="btn btn-primary btn-glow rounded-pill px-4 py-2">
+            <i class="bi bi-plus-lg me-2"></i>Створити тренування
         </a>
     </div>
 
-    <form asp-action="Index" method="get">
-        <div>
-            <div>
-                <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Пошук за назвою..." style="min-width: 250px;">
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="row g-2 align-items-center">
+            <div class="col-auto">
+                <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control bg-dark text-light border-secondary" placeholder="Пошук за назвою..." style="min-width: 250px;">
             </div>
-            <div>
-                <select name="workoutType" style="min-width: 200px;" onchange="this.form.submit()">
+            <div class="col-auto">
+                <select name="workoutType" class="form-select bg-dark text-light border-secondary" style="min-width: 200px;" onchange="this.form.submit()">
                     <option value="">Всі типи тренувань</option>
                     @if (ViewData["CurrentType"]?.ToString() == "Cardio") { <option value="Cardio" selected>Кардіо</option> } else { <option value="Cardio">Кардіо</option> }
                     @if (ViewData["CurrentType"]?.ToString() == "Strength") { <option value="Strength" selected>Силове</option> } else { <option value="Strength">Силове</option> }
@@ -29,35 +29,35 @@
 
             @if (ViewData["CurrentFilter"] != null || ViewData["CurrentType"] != null)
             {
-                <div>
-                    <a asp-action="Index">Очистити</a>
+                <div class="col-auto">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Очистити</a>
                 </div>
             }
         </div>
     </form>
 
-    <div>
-        <table>
+    <div class="table-responsive glass-card p-4 rounded-4">
+        <table class="table table-dark table-hover table-borderless align-middle mb-0">
             <thead>
-                <tr>
+                <tr class="text-uppercase text-muted small border-bottom border-secondary">
                     <th>Назва</th>
                     <th>Тип</th>
                     <th>Інтенсивність</th>
-                    <th>Дії</th>
+                    <th class="text-end">Дії</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model) {
                     <tr>
-                        <td>@item.Name</td>
+                        <td class="fw-bold">@item.Name</td>
                         <td>
-                            @if(item.WorkoutType == "Cardio") { <span><i></i>Кардіо</span> }
-                            else if(item.WorkoutType == "Strength") { <span><i></i>Силове</span> }
-                            else if(item.WorkoutType == "Interval") { <span><i></i>Інтервальне</span> }
-                            else { <span><i></i>Гнучкість</span> }
+                            @if(item.WorkoutType == "Cardio") { <span class="badge bg-danger rounded-pill px-3 py-2"><i class="bi bi-heart-pulse me-1"></i>Кардіо</span> }
+                            else if(item.WorkoutType == "Strength") { <span class="badge bg-warning text-dark rounded-pill px-3 py-2"><i class="bi bi-lightning-charge me-1"></i>Силове</span> }
+                            else if(item.WorkoutType == "Interval") { <span class="badge bg-info text-dark rounded-pill px-3 py-2"><i class="bi bi-stopwatch me-1"></i>Інтервальне</span> }
+                            else { <span class="badge bg-success rounded-pill px-3 py-2"><i class="bi bi-activity me-1"></i>Гнучкість</span> }
                         </td>
                         <td>
-                            <span>
+                            <span class="text-muted">
                                 @if(item.MetValue <= 3.0) { <text>Легке</text> }
                                 else if(item.MetValue <= 6.0) { <text>Середнє</text> }
                                 else if(item.MetValue <= 8.0) { <text>Високе</text> }
@@ -65,9 +65,9 @@
                                 (@item.MetValue MET)
                             </span>
                         </td>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info rounded-pill px-3">Деталі</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-pill px-3">Видалити</a>
                         </td>
                     </tr>
                 }

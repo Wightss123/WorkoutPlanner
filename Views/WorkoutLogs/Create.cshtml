@@ -4,113 +4,113 @@
     ViewData["Title"] = "Нове тренування";
 }
 
-<div>
-    <div>
-        <div>
-            <div style="border-radius: 1rem;">
-                <div>
-                    <h3>Нове тренування</h3>
+<div class="container mt-5 fade-in">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card glass-card shadow-lg border-0" style="border-radius: 1rem;">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold text-white text-center mb-4">Нове тренування</h3>
 
                     <form asp-action="Create" id="workoutLogForm">
-                        <div asp-validation-summary="ModelOnly"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         
-                        <div>
-                            <h5 style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
+                        <div class="mb-4">
+                            <h5 class="text-white mb-3" style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Основна інформація</h5>
                         </div>
 
-                        <div>
-                            <div>
-                                <label asp-for="WorkoutId">Назва тренування</label>
-                                <select asp-for="WorkoutId" asp-items="ViewBag.WorkoutId" id="workoutSelect"></select>
+                        <div class="row g-3">
+                            <div class="col-md-8 text-start">
+                                <label asp-for="WorkoutId" class="form-label text-muted fw-bold mb-1">Назва тренування</label>
+                                <select asp-for="WorkoutId" class="form-select bg-dark text-light border-secondary" asp-items="ViewBag.WorkoutId" id="workoutSelect"></select>
                             </div>
-                            <div>
-                                <label>Тип</label>
-                                <div id="workoutTypeDisplay" style="background-color: #1a1e21 !important;" readonly>Кардіо</div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                <label asp-for="DurationMinutes">Тривалість (хв)</label>
-                                <input asp-for="DurationMinutes" type="number" min="1" value="0" />
-                            </div>
-                            <div>
-                                <label asp-for="CompletedDate">Дата</label>
-                                <input asp-for="CompletedDate" type="date" />
+                            <div class="col-md-4 text-start">
+                                <label class="form-label text-muted fw-bold mb-1">Тип</label>
+                                <div class="form-control bg-dark text-light border-secondary fw-bold" id="workoutTypeDisplay" style="background-color: #1a1e21 !important;" readonly>Кардіо</div>
                             </div>
                         </div>
 
-                        <div>
-                            <label asp-for="UserId">Клієнт</label>
-                            <select asp-for="UserId" asp-items="ViewBag.UserId"></select>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6 text-start">
+                                <label asp-for="DurationMinutes" class="form-label text-muted fw-bold mb-1">Тривалість (хв)</label>
+                                <input asp-for="DurationMinutes" class="form-control bg-dark text-light border-secondary" type="number" min="1" value="0" />
+                            </div>
+                            <div class="col-md-6 text-start">
+                                <label asp-for="CompletedDate" class="form-label text-muted fw-bold mb-1">Дата</label>
+                                <input asp-for="CompletedDate" class="form-control bg-dark text-light border-secondary" type="date" />
+                            </div>
                         </div>
 
-                        <div id="dynamicFieldsContainer" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="mb-4 text-start">
+                            <label asp-for="UserId" class="form-label text-muted fw-bold mb-1">Клієнт</label>
+                            <select asp-for="UserId" class="form-select bg-dark text-light border-secondary" asp-items="ViewBag.UserId"></select>
+                        </div>
+
+                        <div id="dynamicFieldsContainer" class="mt-4 p-3 rounded-3" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);">
                             
-                            <div id="cardioFields">
-                                <h6><i></i>Параметри Кардіо</h6>
-                                <div>
-                                    <div>
-                                        <label asp-for="AverageHeartRate">Середній пульс</label>
-                                        <input asp-for="AverageHeartRate" type="number" />
+                            <div id="cardioFields" class="dynamic-group d-none">
+                                <h6 class="text-danger mb-3"><i class="bi bi-heart-pulse me-2"></i>Параметри Кардіо</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="AverageHeartRate" class="text-muted small mb-1">Середній пульс</label>
+                                        <input asp-for="AverageHeartRate" class="form-control bg-dark text-light border-secondary" type="number" />
                                     </div>
-                                    <div>
-                                        <label asp-for="DistanceKm">Дистанція (км)</label>
-                                        <input asp-for="DistanceKm" type="number" step="0.1" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="strengthFields">
-                                <h6><i></i>Параметри Силового</h6>
-                                <div>
-                                    <div>
-                                        <label asp-for="WeightLiftedKg">Вага (кг)</label>
-                                        <input asp-for="WeightLiftedKg" type="number" step="0.5" />
-                                    </div>
-                                    <div>
-                                        <label asp-for="Sets">Підходи</label>
-                                        <input asp-for="Sets" type="number" />
-                                    </div>
-                                    <div>
-                                        <label asp-for="Reps">Повторення</label>
-                                        <input asp-for="Reps" type="number" />
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="DistanceKm" class="text-muted small mb-1">Дистанція (км)</label>
+                                        <input asp-for="DistanceKm" class="form-control bg-dark text-light border-secondary" type="number" step="0.1" />
                                     </div>
                                 </div>
                             </div>
 
+                            <div id="strengthFields" class="dynamic-group d-none">
+                                <h6 class="text-warning mb-3"><i class="bi bi-lightning-charge me-2"></i>Параметри Силового</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-4 text-start">
+                                        <label asp-for="WeightLiftedKg" class="text-muted small mb-1">Вага (кг)</label>
+                                        <input asp-for="WeightLiftedKg" class="form-control bg-dark text-light border-secondary" type="number" step="0.5" />
+                                    </div>
+                                    <div class="col-md-4 text-start">
+                                        <label asp-for="Sets" class="text-muted small mb-1">Підходи</label>
+                                        <input asp-for="Sets" class="form-control bg-dark text-light border-secondary" type="number" />
+                                    </div>
+                                    <div class="col-md-4 text-start">
+                                        <label asp-for="Reps" class="text-muted small mb-1">Повторення</label>
+                                        <input asp-for="Reps" class="form-control bg-dark text-light border-secondary" type="number" />
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div id="intervalFields">
-                                <h6><i></i>Параметри Інтервального тренування</h6>
-                                <div>
-                                    <div>
-                                        <label asp-for="Sets">Підходи/Раунди</label>
-                                        <input asp-for="Sets" id="Sets" type="number" />
+
+                            <div id="intervalFields" class="dynamic-group d-none">
+                                <h6 class="text-info mb-3"><i class="bi bi-stopwatch me-2"></i>Параметри Інтервального тренування</h6>
+                                <div class="row g-3">
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="Sets" class="text-muted small mb-1">Підходи/Раунди</label>
+                                        <input asp-for="Sets" id="Sets" class="form-control bg-dark text-light border-secondary" type="number" />
                                     </div>
-                                    <div>
-                                        <label asp-for="Reps">Повторення за раунд</label>
-                                        <input asp-for="Reps" id="Reps" type="number" />
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="Reps" class="text-muted small mb-1">Повторення за раунд</label>
+                                        <input asp-for="Reps" id="Reps" class="form-control bg-dark text-light border-secondary" type="number" />
                                     </div>
-                                    <div>
-                                        <label asp-for="WorkDurationSeconds">Час роботи за раунд (сек)</label>
-                                        <input asp-for="WorkDurationSeconds" type="number" min="0" />
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="WorkDurationSeconds" class="text-muted small mb-1">Час роботи за раунд (сек)</label>
+                                        <input asp-for="WorkDurationSeconds" class="form-control bg-dark text-light border-secondary" type="number" min="0" />
                                     </div>
-                                    <div>
-                                        <label asp-for="RestDurationSeconds">Час відпочинку між раундами (сек)</label>
-                                        <input asp-for="RestDurationSeconds" type="number" min="0" />
+                                    <div class="col-md-6 text-start">
+                                        <label asp-for="RestDurationSeconds" class="text-muted small mb-1">Час відпочинку між раундами (сек)</label>
+                                        <input asp-for="RestDurationSeconds" class="form-control bg-dark text-light border-secondary" type="number" min="0" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <label asp-for="Comment">Нотатки</label>
-                            <textarea asp-for="Comment" placeholder="Нотатки (опціонально)" rows="2"></textarea>
+                        <div class="mt-4 text-start">
+                            <label asp-for="Comment" class="form-label text-muted fw-bold mb-1">Нотатки</label>
+                            <textarea asp-for="Comment" class="form-control bg-dark text-light border-secondary" placeholder="Нотатки (опціонально)" rows="2"></textarea>
                         </div>
 
-                        <div>
-                            <button type="submit">Зберегти тренування</button>
-                            <button type="button" onclick="history.back()">Скасувати</button>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-glow rounded-pill py-2 fw-bold">Зберегти тренування</button>
+                            <button type="button" onclick="history.back()" class="btn btn-outline-light rounded-pill py-2">Скасувати</button>
                         </div>
                     </form>
                 </div>
@@ -136,7 +136,7 @@
                     else if (item.text === 'Інтервальне') { color = '#0dcaf0'; icon = 'bi-stopwatch'; }
                     else if (item.text === 'Гнучкість') { color = '#198754'; icon = 'bi-activity'; }
                     
-                    return $('<span style="color:' + color + '; font-weight: bold; font-size: 1.1em;"><i></i>' + item.text + '</span>');
+                    return $('<span style="color:' + color + '; font-weight: bold; font-size: 1.1em;"><i class="bi ' + icon + ' me-2"></i>' + item.text + '</span>');
                 }
                 return item.text;
             }
