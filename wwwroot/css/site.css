@@ -1,0 +1,161 @@
+:root {
+    --bg-dark: #111827; /* Darker, cleaner gray */
+    --card-bg: #1f2937;
+    
+    /* Твоя нова стилістика */
+    --color-red: rgb(219, 26, 26);
+    --color-pink: rgb(255, 246, 246); /* Snow/Off-white */
+    --color-purple: rgb(140, 199, 196); /* Mint */
+    --color-indigo: rgb(44, 104, 123); /* Dark Teal */
+    
+    --border-color: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: #f8fafc;
+    overflow-x: hidden;
+}
+
+.z-index-1 {
+    z-index: 1;
+}
+
+/* Minimalist Nav */
+.glass-nav {
+    background: var(--bg-dark) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* Minimalist Cards (Replacing aggressive glassmorphism) */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Typography */
+.text-gradient {
+    background: linear-gradient(135deg, var(--color-pink), var(--color-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--color-indigo);
+    border-color: var(--color-indigo);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--color-purple) !important;
+    border-color: var(--color-purple) !important;
+}
+
+.btn-outline-info {
+    color: var(--color-pink);
+    border-color: var(--color-pink);
+}
+
+.btn-outline-info:hover {
+    background-color: var(--color-pink);
+    color: white;
+}
+
+.btn-glow {
+    position: relative;
+}
+
+.btn-glow:hover {
+    transform: translateY(-2px);
+}
+
+/* Hover Effects */
+.premium-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    border-color: var(--color-purple);
+}
+
+.nav-hover {
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+.nav-hover::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background: var(--color-pink);
+    transition: all 0.2s ease;
+    transform: translateX(-50%);
+}
+
+.nav-hover:hover::after {
+    width: 80%;
+}
+
+/* Forms */
+.form-control, .form-select {
+    border-radius: 0.5rem; /* Less rounded for minimalist look */
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid var(--border-color) !important;
+    color: white !important;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-purple) !important;
+    box-shadow: 0 0 0 1px var(--color-purple) !important;
+}
+
+option {
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Table overrides */
+.table-dark {
+    --bs-table-bg: transparent;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255,255,255,0.03) !important;
+}
+
+/* Type icons mapping for aesthetics */
+.text-danger { color: var(--color-red) !important; }
+.bg-danger { background-color: var(--color-red) !important; }
+
+.text-warning { color: #fbbf24 !important; }
+.bg-warning { background-color: #fbbf24 !important; }
+
+.text-success { color: #34d399 !important; }
+.bg-success { background-color: #34d399 !important; }
+
+.text-info { color: #60a5fa !important; }
